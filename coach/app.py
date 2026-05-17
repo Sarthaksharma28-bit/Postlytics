@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-AI Creator Coach — Streamlit App
+Postlytics — Streamlit App
 Run: streamlit run app.py
 """
 
@@ -29,7 +29,7 @@ _load_env()
 
 # ── Page config ───────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="CreatorCoach AI",
+    page_title="Postlytics",
     page_icon="🎬",
     layout="wide",
     initial_sidebar_state="collapsed",
@@ -43,27 +43,6 @@ st.markdown("""
 /* Global */
 html, body, [class*="css"] { font-family: 'DM Sans', sans-serif; }
 .block-container { padding-top: 2rem; padding-bottom: 4rem; max-width: 1100px; }
-
-/* ── DEPLOYMENT FIX: Force text visibility regardless of host theme ── */
-/* Streamlit deployed environments can override text color to dark/grey */
-[data-testid="stMarkdownContainer"] p,
-[data-testid="stMarkdownContainer"] span,
-[data-testid="stMarkdownContainer"] li,
-[data-testid="stMarkdownContainer"] h1,
-[data-testid="stMarkdownContainer"] h2,
-[data-testid="stMarkdownContainer"] h3,
-[data-testid="stMarkdownContainer"] h4,
-[data-testid="stMarkdownContainer"] strong,
-[data-testid="stMarkdownContainer"] em,
-.stMarkdown p, .stMarkdown span, .stMarkdown li,
-.stMarkdown h1, .stMarkdown h2, .stMarkdown h3,
-.element-container p, .element-container li {
-  color: #F0F4FF !important;
-}
-/* Ensure all markdown text is visible on dark background */
-.stApp p, .stApp li, .stApp span { color: #F0F4FF; }
-/* Override any light-mode text Streamlit cloud might inject */
-body { color: #F0F4FF !important; background-color: #080B10 !important; }
 
 /* Hide Streamlit chrome */
 #MainMenu, footer, header { visibility: hidden; }
@@ -1373,11 +1352,7 @@ def render_overview(data):
             unsafe_allow_html=True
         )
     with c2:
-        st.markdown(
-            f'<h3 style="color:#F0F4FF !important;font-size:1.35rem;font-weight:700;'
-            f'margin:0 0 10px 0;font-family:Syne,sans-serif">{_esc(cat)} Reel</h3>',
-            unsafe_allow_html=True
-        )
+        st.markdown(f"### {_esc(cat)} Reel")
         conf_color = {"high": "#6BCB77", "medium": "#C8FF57", "low": "#FFD93D"}.get(confidence, "#C8FF57")
         st.markdown(
             f'<span style="background:rgba(87,200,255,0.12);color:#57C8FF;border:1px solid rgba(87,200,255,0.2);'
@@ -1388,16 +1363,8 @@ def render_overview(data):
         )
         st.markdown("<br>", unsafe_allow_html=True)
         if activity and activity != "Content creation":
-            st.markdown(
-                f'<p style="color:#F0F4FF !important;font-size:0.95rem;margin:0 0 8px 0">'
-                f'<strong style="color:#F0F4FF !important">Primary activity:</strong> {_esc(activity)}</p>',
-                unsafe_allow_html=True
-            )
-        st.markdown(
-            f'<p style="color:rgba(240,244,255,0.75) !important;font-size:0.92rem;'
-            f'font-style:italic;line-height:1.7;margin:0">{_esc(summary)}</p>',
-            unsafe_allow_html=True
-        )
+            st.markdown(f"**Primary activity:** {_esc(activity)}")
+        st.markdown(f"*{_esc(summary)}*")
 
     st.divider()
 
@@ -1539,7 +1506,7 @@ def render_metrics_row(data):
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# SECTION 3 — Creator coaching
+# SECTION 3 — Postlytics
 # ─────────────────────────────────────────────────────────────────────────────
 def render_coaching_section(feedback):
     persona  = str(feedback.get("creator_persona", ""))
@@ -2290,7 +2257,7 @@ def render_viral_titles(titles: list):
 
 col_logo, col_badge = st.columns([5, 1])
 with col_logo:
-    st.markdown('<div style="display:flex;align-items:center;gap:12px;padding-bottom:12px"><span style="font-size:2rem">🎬</span><span style="font-family:Syne,sans-serif;font-size:1.4rem;font-weight:800;letter-spacing:-0.5px">Creator<span style="color:#C8FF57">Coach</span></span></div>', unsafe_allow_html=True)
+    st.markdown('<div style="display:flex;align-items:center;gap:12px;padding-bottom:12px"><span style="font-size:2rem">🎬</span><span style="font-family:Syne,sans-serif;font-size:1.4rem;font-weight:800;letter-spacing:-0.5px">Postlytics</span></div>', unsafe_allow_html=True)
 with col_badge:
     st.markdown('<div style="text-align:right;padding-top:10px"><span style="background:rgba(200,255,87,0.1);color:#C8FF57;border:1px solid rgba(200,255,87,0.2);border-radius:100px;padding:4px 12px;font-size:0.7rem;font-weight:600;letter-spacing:0.06em">AI-POWERED</span></div>', unsafe_allow_html=True)
 
@@ -2340,7 +2307,7 @@ if not st.session_state.show_results:
         ("🎥", "Visual Quality", "Brightness, contrast, stability, framing"),
         ("⚡", "Hook Score",     "First 3 seconds — will viewers stay?"),
         ("🎵", "Audio Analysis", "Volume, noise, clipping, tempo"),
-        ("🧠", "Creator Coach",  "Niche-specific feedback & fixes"),
+        ("🧠", "Postlytics",  "Niche-specific feedback & fixes"),
         ("✍️", "4 Captions",    "Engaging, viral, story, question styles"),
         ("#",  "25 Hashtags",   "Optimized mix for maximum reach"),
         ("🖼️", "Thumbnail",     "Best frame chosen by AI scoring"),
@@ -2449,9 +2416,9 @@ else:
     st.caption("The opening 3 seconds determine whether viewers swipe or stay")
     render_hook_analysis(data.get("hook_analysis", {}), data.get("visual_analysis", {}))
 
-    # ── 5. CREATOR COACHING ───────────────────────────────────────────────────
+    # ── 5. POSTLYTICS ───────────────────────────────────────────────────
     st.markdown("---")
-    st.markdown("## 🧠 Creator Coaching")
+    st.markdown("## 🧠 Postlytics")
     render_coaching_section(data["coaching_feedback"])
 
     # ── 6. TECHNICAL ANALYSIS ────────────────────────────────────────────────
@@ -2525,4 +2492,4 @@ else:
     render_thumbnail_section(data["thumbnail"], data.get("_frames", []))
 
     st.markdown("---")
-    st.caption("Postlytics · Analysis powered by Gemini Vision + YOLOv8 + OpenCV + Librosa")
+    st.caption("CreatorCoach AI · Analysis powered by Gemini Vision + YOLOv8 + OpenCV + Librosa")
